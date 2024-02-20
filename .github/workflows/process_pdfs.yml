@@ -28,16 +28,16 @@ jobs:
 
     - name: Process PDFs
       run: |
-        # Crop and split the PDF (Commented out for SVG conversion)
-        # gs -sDEVICE=pdfwrite -dNOPAUSE -dBATCH -dSAFER \
-        #    -dFirstPage=1 -dLastPage=1 \
-        #    -sOutputFile=docs/maandag-donderdag.pdf \
-        #    -c "[/CropBox [80 100 520 780] /PAGES pdfmark" -f original_wachtkaart.pdf
+         Crop and split the PDF (Commented out for SVG conversion)
+         gs -sDEVICE=pdfwrite -dNOPAUSE -dBATCH -dSAFER \
+            -dFirstPage=1 -dLastPage=1 \
+            -sOutputFile=docs/maandag-donderdag.pdf \
+            -c "[/CropBox [80 100 520 780] /PAGES pdfmark" -f original_wachtkaart.pdf
 
-        # gs -sDEVICE=pdfwrite -dNOPAUSE -dBATCH -dSAFER \
-        #    -dFirstPage=2 -dLastPage=2 \
-        #    -sOutputFile=docs/vrijdag-zondag.pdf \
-        #    -c "[/CropBox [80 100 520 780] /PAGES pdfmark" -f original_wachtkaart.pdf
+         gs -sDEVICE=pdfwrite -dNOPAUSE -dBATCH -dSAFER \
+            -dFirstPage=2 -dLastPage=2 \
+            -sOutputFile=docs/vrijdag-zondag.pdf \
+            -c "[/CropBox [80 100 520 780] /PAGES pdfmark" -f original_wachtkaart.pdf
 
         # Convert cropped PDFs to SVG (New steps)
         pdf2svg docs/maandag-donderdag.pdf docs/maandag-donderdag.svg
