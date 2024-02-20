@@ -42,7 +42,7 @@ jobs:
     - name: Generate Commit Message
       run: |
         WEEK=$(date +%V)
-        echo "name=Updated Geowacht schedules for week $WEEK" >> $GITHUB_ENV
+        echo "name=Updated Geowacht schedules for week $WEEK" >> $GITHUB_OUTPUT
 
     - name: Commit and Push PDFs
       uses: EndBug/add-and-commit@v7
