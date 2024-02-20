@@ -78,7 +78,7 @@
         // Detect specific iPad user agent and apply increased height
         document.addEventListener('DOMContentLoaded', function() {
             var userAgent = navigator.userAgent || navigator.vendor || window.opera;
-            if (userAgent.match(/iPad; CPU OS 10_3 like Mac OS X/i)) {
+            if (userAgent.match(/iPad; CPU OS 10_3_4 like Mac OS X/i)) {
                 document.getElementById("svgImage").classList.add("increase-height");
             }
         });
