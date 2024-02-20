@@ -34,6 +34,12 @@
             left: 0;
             right: 0;
         }
+        /* Additional class to adjust height */
+        .increase-height {
+            max-height: 120% !important;
+            height: 120% !important;
+            top: -10%; /* Adjust based on the increased height to center */
+        }
     </style>
 </head>
 <body>
@@ -68,12 +74,19 @@
                 window.location.reload();
             }
         }, 60000); // 60000 milliseconds = 1 minute
+
+        // Detect specific iPad user agent and apply increased height
+        document.addEventListener('DOMContentLoaded', function() {
+            var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            if (userAgent.match(/iPad; CPU OS 10_3 like Mac OS X/i)) {
+                document.getElementById("svgImage").classList.add("increase-height");
+            }
+        });
+
+        // Prevent touch move actions to avoid the page moving on touch
+        document.addEventListener('touchmove', function(e) {
+            e.preventDefault();
+        }, { passive: false });
     </script>
-        <script>
-            // Prevent touch move actions to avoid the page moving on touch
-            document.addEventListener('touchmove', function(e) {
-                e.preventDefault();
-            }, { passive: false });
-        </script>
 </body>
 </html>
