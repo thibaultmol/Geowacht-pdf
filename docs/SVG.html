@@ -25,7 +25,7 @@
         }
         img {
             max-width: 100%;
-            max-height: 100%;
+            max-height: 100vh;
             object-fit: contain;
             display: block; /* Remove any default margins */
             margin: 0 auto; /* Center the image horizontally */
@@ -70,12 +70,6 @@
             }
         }, 60000); // 60000 milliseconds = 1 minute
     </script>
-        <script>
-            // Prevent touch move actions to avoid the page moving on touch
-            document.addEventListener('touchmove', function(e) {
-                e.preventDefault();
-            }, { passive: false });
-        </script>
     <script>
         // Prevent touch move actions to avoid the page moving on touch
         document.addEventListener('touchmove', function(e) {
