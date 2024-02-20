@@ -28,16 +28,16 @@ jobs:
     - name: Process PDFs
       run: |
         # Crop and include only the first page for maandag-donderdag.pdf
-        gs -sDEVICE=pdfwrite -o maandag-donderdag.pdf \
-           -c "[/CropBox [80 100 520 780] /PAGES pdfmark" \
-           -f original_wachtkaart.pdf -dNOPAUSE -dBATCH -dSAFER \
-           -dFirstPage=1 -dLastPage=1
+        gs -sDEVICE=pdfwrite -dNOPAUSE -dBATCH -dSAFER \
+           -dFirstPage=1 -dLastPage=1 \
+           -sOutputFile=maandag-donderdag.pdf \
+           -c "[/CropBox [80 100 520 780] /PAGES pdfmark" -f original_wachtkaart.pdf
 
         # Crop and include only the second page for vrijdag-zondag.pdf
-        gs -sDEVICE=pdfwrite -o vrijdag-zondag.pdf \
-           -c "[/CropBox [80 100 520 780] /PAGES pdfmark" \
-           -f original_wachtkaart.pdf -dNOPAUSE -dBATCH -dSAFER \
-           -dFirstPage=2 -dLastPage=2
+        gs -sDEVICE=pdfwrite -dNOPAUSE -dBATCH -dSAFER \
+           -dFirstPage=2 -dLastPage=2 \
+           -sOutputFile=vrijdag-zondag.pdf \
+           -c "[/CropBox [80 100 520 780] /PAGES pdfmark" -f original_wachtkaart.pdf
 
     - name: Generate Commit Message
       run: |
