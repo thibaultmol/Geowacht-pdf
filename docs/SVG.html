@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -12,6 +12,8 @@
         body, html {
             margin: 0;
             padding: 0;
+            height: 100%;
+            width: 100%;
             overflow: hidden;
             background-color: #ffffff;
             position: fixed; /* Prevent the page from moving */
@@ -19,24 +21,23 @@
             left: 0;
             bottom: 0;
             right: 0;
-            width: 100%;
-            height: 100%;
         }
         img {
             max-width: 100%;
-            /* Adjusted to allow dynamic height setting via JavaScript */
+            max-height: 100%;
+            object-fit: contain;
             display: block; /* Remove any default margins */
             margin: 0 auto; /* Center the image horizontally */
             position: absolute; /* Override any default spacing */
             top: 0;
+            bottom: 0;
             left: 0;
             right: 0;
-            bottom: 0;
         }
     </style>
 </head>
 <body>
-    <img id="svgImage" src="" alt="Duty Schedule">
+    <img id="svgImage" src="path/to/your.svg" alt="Duty Schedule">
     <script>
         function needsRefresh() {
             const now = new Date();
@@ -58,27 +59,8 @@
             document.getElementById("svgImage").src = svgToDisplay;
         }
 
-        // Adjust SVG height to fill the viewport
-        function adjustSVGHeight() {
-            const svgImage = document.getElementById('svgImage');
-            if (svgImage) {
-                svgImage.style.height = `${window.innerHeight}px`;
-            }
-        }
-
         // Initial load
-        window.addEventListener('load', () => {
-            loadSVG();
-            adjustSVGHeight();
-        });
-
-        // Adjust on resize, for orientation change
-        window.addEventListener('resize', adjustSVGHeight);
-
-        // Prevent touch move actions to avoid the page moving on touch
-        document.addEventListener('touchmove', function(e) {
-            e.preventDefault();
-        }, { passive: false });
+        loadSVG();
 
         // Check every minute if it's time to refresh
         setInterval(() => {
@@ -87,5 +69,11 @@
             }
         }, 60000); // 60000 milliseconds = 1 minute
     </script>
+        <script>
+            // Prevent touch move actions to avoid the page moving on touch
+            document.addEventListener('touchmove', function(e) {
+                e.preventDefault();
+            }, { passive: false });
+        </script>
 </body>
 </html>
