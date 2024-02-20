@@ -15,32 +15,25 @@
             width: 100%;
             overflow: hidden;
             background-color: #ffffff;
-            position: fixed;
+            position: fixed; /* Prevent the page from moving */
             top: 0;
             left: 0;
-            right: 0;
             bottom: 0;
+            right: 0;
+            height: 100vh; /* Fallback for browsers */
+            height: -webkit-fill-available; /* Specific fix for mobile Safari */
         }
         img {
             max-width: 100%;
             max-height: 100%;
             object-fit: contain;
-            display: block;
-            margin: 0 auto;
-            position: absolute;
+            display: block; /* Remove any default margins */
+            margin: 0 auto; /* Center the image horizontally */
+            position: absolute; /* Override any default spacing */
             top: 0;
+            bottom: 0;
             left: 0;
             right: 0;
-            bottom: 0;
-        }
-        /* Adjustments for specific user agent */
-        .increase-height {
-            max-height: 120% !important;
-            height: 120% !important;
-            top: -10%; /* Center vertically after height increase */
-        }
-        .increase-html-height {
-            height: 120% !important;
         }
     </style>
 </head>
@@ -76,17 +69,18 @@
                 window.location.reload();
             }
         }, 60000); // 60000 milliseconds = 1 minute
-
-        // Adjust height based on user agent
-        document.addEventListener('DOMContentLoaded', function() {
-            var userAgent = navigator.userAgent || navigator.vendor || window.opera;
-            if (userAgent.match(/iPad; CPU OS 10_3 like Mac OS X/i)) {
-                document.getElementById("svgImage").classList.add("increase-height");
-                // Also increase the height of the html and body tags
-                document.documentElement.style.height = "120%";
-                document.body.style.height = "120%";
-            }
-        });
+    </script>
+        <script>
+            // Prevent touch move actions to avoid the page moving on touch
+            document.addEventListener('touchmove', function(e) {
+                e.preventDefault();
+            }, { passive: false });
+        </script>
+    <script>
+        // Prevent touch move actions to avoid the page moving on touch
+        document.addEventListener('touchmove', function(e) {
+            e.preventDefault();
+        }, { passive: false });
     </script>
 </body>
 </html>
