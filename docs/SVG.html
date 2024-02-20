@@ -55,7 +55,7 @@
         function loadSVG() {
             const dayOfWeek = new Date().getDay();
             const isWeekend = dayOfWeek >= 5 || dayOfWeek === 0; // Friday, Saturday, Sunday
-            const svgToDisplay = isWeekend ? 'vrijdag-zondag.png' : 'vrijdag-zondag.png';
+            const svgToDisplay = isWeekend ? 'vrijdag-zondag.svg' : 'maandag-donderdag.svg';
             document.getElementById("svgImage").src = svgToDisplay;
         }
 
