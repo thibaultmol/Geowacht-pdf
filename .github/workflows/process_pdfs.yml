@@ -2,7 +2,7 @@ name: Process PDFs
 
 on:
   schedule:
-    - cron: '3 0 * * 0'  # Runs at 00:03 every Sunday
+    - cron: '3 0 * * 1'  # Runs at 00:03 every Monday
   workflow_dispatch:
 
 jobs:
@@ -11,20 +11,23 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       with:
-        fetch-depth: 0  # Ensures the entire repo is checked out
+        fetch-depth: 0
 
-    - name: Setup Ghostscript
+    - name: Setup Environment
       run: |
         sudo apt-get update
-        sudo apt-get install ghostscript
+        sudo apt-get install -y ghostscript
+
+    - name: Download Original PDF
+      run: |
+        TODAY=$(date +%d/%m/%Y)
+        URL="https://geowacht.be/wachtkaart.html?pharmacy=371201&date=${TODAY}&language=NL"
+        curl -o original_wachtkaart.pdf "${URL}"
 
     - name: Process PDFs
       run: |
-        # Assuming original_wachtkaart.pdf needs to be split into two parts
-        # Adjust the commands below as necessary based on your actual processing needs
         gs -o maandag-donderdag.pdf -sDEVICE=pdfwrite -c "[/CropBox [80 100 520 780] /PAGES pdfmark" -f original_wachtkaart.pdf
         gs -o vrijdag-zondag.pdf -sDEVICE=pdfwrite -c "[/CropBox [80 100 520 780] /PAGES pdfmark" -f original_wachtkaart.pdf
-        # Note: You might need to adjust the Ghostscript commands if there are specific pages to extract for each file
 
     - name: Generate Commit Message
       id: commit-message
