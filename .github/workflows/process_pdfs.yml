@@ -13,44 +13,50 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Setup Environment
-      run: sudo apt-get update && sudo apt-get install -y ghostscript wget
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y ghostscript wget pdf2svg
 
     - name: Download Original PDF
       run: |
-        # Ensure date components do not have leading zeros for arithmetic or URL construction
         YEAR=$(date +%Y)
-        MONTH=$(date +%m | sed 's/^0*//')  # Removes leading zeros
-        DAY=$(date +%d | sed 's/^0*//')    # Removes leading zeros
-        DATE=$(printf "%02d/%02d/%04d" $DAY $MONTH $YEAR)  # Formats date as DD/MM/YYYY
+        MONTH=$(date +%m | sed 's/^0*//')
+        DAY=$(date +%d | sed 's/^0*//')
+        DATE=$(printf "%02d/%02d/%04d" $DAY $MONTH $YEAR)
         URL="https://geowacht.be/wachtkaart.html?pharmacy=371201&date=${DATE}&language=NL"
         wget -O original_wachtkaart.pdf "${URL}"
 
     - name: Process PDFs
       run: |
-        # Crop and include only the first page for maandag-donderdag.pdf
-        gs -sDEVICE=pdfwrite -dNOPAUSE -dBATCH -dSAFER \
-           -dFirstPage=1 -dLastPage=1 \
-           -sOutputFile=docs/maandag-donderdag.pdf \
-           -c "[/CropBox [80 100 520 780] /PAGES pdfmark" -f original_wachtkaart.pdf
+        # Crop and split the PDF (Commented out for SVG conversion)
+        # gs -sDEVICE=pdfwrite -dNOPAUSE -dBATCH -dSAFER \
+        #    -dFirstPage=1 -dLastPage=1 \
+        #    -sOutputFile=docs/maandag-donderdag.pdf \
+        #    -c "[/CropBox [80 100 520 780] /PAGES pdfmark" -f original_wachtkaart.pdf
 
-        # Crop and include only the second page for vrijdag-zondag.pdf
-        gs -sDEVICE=pdfwrite -dNOPAUSE -dBATCH -dSAFER \
-           -dFirstPage=2 -dLastPage=2 \
-           -sOutputFile=docs/vrijdag-zondag.pdf \
-           -c "[/CropBox [80 100 520 780] /PAGES pdfmark" -f original_wachtkaart.pdf
+        # gs -sDEVICE=pdfwrite -dNOPAUSE -dBATCH -dSAFER \
+        #    -dFirstPage=2 -dLastPage=2 \
+        #    -sOutputFile=docs/vrijdag-zondag.pdf \
+        #    -c "[/CropBox [80 100 520 780] /PAGES pdfmark" -f original_wachtkaart.pdf
+
+        # Convert cropped PDFs to SVG (New steps)
+        pdf2svg docs/maandag-donderdag.pdf docs/maandag-donderdag.svg
+        pdf2svg docs/vrijdag-zondag.pdf docs/vrijdag-zondag.svg
 
     - name: Generate Commit Message
       run: |
         WEEK=$(date +%V)
-        echo "name=Updated Geowacht schedules for week $WEEK" >> $GITHUB_OUTPUT
+        echo "name=Updated Geowacht schedules for week $WEEK" >> $GITHUB_ENV
 
-    - name: Commit and Push PDFs
+    - name: Commit and Push Files
       uses: EndBug/add-and-commit@v7
       with:
         author_name: GeowachtBot
         author_email: geowachtbot@thibaultmol.link
         message: ${{ env.name }}
-        add: 'docs/maandag-donderdag.pdf docs/vrijdag-zondag.pdf'
+        # Adjust to commit SVG files (and keep PDF lines commented)
+        # add: 'docs/maandag-donderdag.pdf docs/vrijdag-zondag.pdf'
+        add: 'docs/maandag-donderdag.svg docs/vrijdag-zondag.svg'
         push: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
