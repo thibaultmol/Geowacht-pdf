@@ -9,6 +9,10 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <title>Pharmacy Duty Schedule</title>
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body, html {
             margin: 0;
             padding: 0;
@@ -16,47 +20,52 @@
             width: 100%;
             overflow: hidden;
             background-color: #ffffff;
-            position: fixed; /* Prevent the page from moving */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
             top: 0;
             left: 0;
-            bottom: 0;
             right: 0;
+            bottom: 0;
         }
-        img {
+
+        .container {
+            width: 100%;
+            height: 100%;
+            background-color: #ffffff; /* Adjust if needed */
+            display: flex; /* Helps center and contain the SVG in the viewport */
+            justify-content: center;
+            align-items: center;
+        }
+
+        svg {
+            display: block; /* SVG fills the container without exceeding its bounds */
             max-width: 100%;
             max-height: 100%;
-            object-fit: contain;
-            display: block; /* Remove any default margins */
-            margin: 0 auto; /* Center the image horizontally */
-            position: absolute; /* Override any default spacing */
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
+            width: auto; /* Scales the width as needed */
+            height: auto; /* Scales the height as needed */
         }
     </style>
 </head>
 <body>
-    <img id="svgImage" src="path/to/your.svg" alt="Duty Schedule">
+    <div class="container">
+        <!-- Your inline SVG here -->
+        <svg id="svgContent" viewBox="0 0 YOUR_VIEWBOX_DIMENSIONS">
+            <!-- SVG content goes here -->
+        </svg>
+    </div>
     <script>
-        function needsRefresh() {
-            const now = new Date();
-            const dayOfWeek = now.getDay();
-            const hour = now.getHours();
-            const minute = now.getMinutes();
-            
-            // Check if it's close to 00:10
-            const isRefreshTime = hour === 0 && minute <= 10;
-            
-            // Monday or Friday at 00:10
-            return (dayOfWeek === 1 || dayOfWeek === 5) && isRefreshTime;
-        }
-
         function loadSVG() {
             const dayOfWeek = new Date().getDay();
             const isWeekend = dayOfWeek >= 5 || dayOfWeek === 0; // Friday, Saturday, Sunday
-            const svgToDisplay = isWeekend ? 'vrijdag-zondag.svg' : 'maandag-donderdag.svg';
-            document.getElementById("svgImage").src = svgToDisplay;
+            // Adjust the path to your SVG files as needed
+            const svgFilePath = isWeekend ? 'path/to/vrijdag-zondag.svg' : 'path/to/maandag-donderdag.svg';
+            fetch(svgFilePath)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById("svgContent").innerHTML = data;
+                });
         }
 
         // Initial load
@@ -69,11 +78,11 @@
             }
         }, 60000); // 60000 milliseconds = 1 minute
     </script>
-        <script>
-            // Prevent touch move actions to avoid the page moving on touch
-            document.addEventListener('touchmove', function(e) {
-                e.preventDefault();
-            }, { passive: false });
-        </script>
+    <script>
+        // Prevent touch move actions to avoid the page moving on touch
+        document.addEventListener('touchmove', function(e) {
+            e.preventDefault();
+        }, { passive: false });
+    </script>
 </body>
 </html>
