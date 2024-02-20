@@ -7,28 +7,32 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-touch-fullscreen" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <title>Geowacht watchkaart</title>
+    <title>Pharmacy Duty Schedule</title>
     <style>
         body, html {
             margin: 0;
             padding: 0;
+            height: 100%;
             width: 100%;
             overflow: hidden;
             background-color: #ffffff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh; /* Use vh unit to cover full viewport height */
-            position: fixed; /* Lock the position to avoid scrolling */
+            position: fixed; /* Prevent the page from moving */
             top: 0;
             left: 0;
+            bottom: 0;
+            right: 0;
         }
         img {
             max-width: 100%;
             max-height: 100%;
             object-fit: contain;
-            width: auto; /* Adjust width automatically */
-            height: auto; /* Adjust height automatically */
+            display: block; /* Remove any default margins */
+            margin: 0 auto; /* Center the image horizontally */
+            position: absolute; /* Override any default spacing */
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
         }
     </style>
 </head>
