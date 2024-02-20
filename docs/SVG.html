@@ -14,19 +14,20 @@
             padding: 0;
             height: 100%;
             width: 100%;
-            overflow: hidden;
+            overflow: hidden; /* Disable scrolling */
+            background-color: #ffffff; /* Background color fix */
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #ffffff; /* In case the SVG does not cover the whole screen, this will show as border. */
         }
         img {
             max-width: 100%;
             max-height: 100vh;
             width: auto;
             height: auto;
+            object-fit: contain; /* Maintain aspect ratio and fit to screen */
         }
-    </style>
+    </style>    
     <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', function(){
             var updateStatusBar = navigator.userAgent.match(/iphone|ipad|ipod/i) && navigator.appVersion.match(/OS (\d)/) && parseInt(navigator.appVersion.match(/OS (\d)/)[1], 10) >= 7 && window.navigator.standalone;
