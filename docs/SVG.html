@@ -3,43 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="refresh" content="600;url=index.html">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-touch-fullscreen" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <title>Geowacht wachtkaart</title>
+    <title>Pharmacy Duty Schedule</title>
     <style>
         body, html {
             margin: 0;
             padding: 0;
             height: 100%;
             width: 100%;
-            overflow: hidden; /* Disable scrolling */
-            background-color: #ffffff; /* Background color fix */
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            overflow: hidden;
+            background-color: #ffffff;
+            position: fixed; /* Prevent the page from moving */
+            top: 0;
+            left: 0;
         }
         img {
             max-width: 100%;
             max-height: 100vh;
-            width: auto;
-            height: auto;
-            object-fit: contain; /* Maintain aspect ratio and fit to screen */
+            object-fit: contain;
+            display: block; /* Remove any default margins */
+            margin: 0 auto; /* Center the image horizontally */
+            position: absolute; /* Override any default spacing */
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
         }
-    </style>    
-    <script type="text/javascript">
-        document.addEventListener('DOMContentLoaded', function(){
-            var updateStatusBar = navigator.userAgent.match(/iphone|ipad|ipod/i) && navigator.appVersion.match(/OS (\d)/) && parseInt(navigator.appVersion.match(/OS (\d)/)[1], 10) >= 7 && window.navigator.standalone;
-            if (updateStatusBar) {
-                document.body.classList.add('platform-ios');
-                document.body.classList.add('platform-cordova');
-            }
-        });
-    </script>
+    </style>
 </head>
 <body>
-    <img id="svgImage" src="" alt="Duty Schedule">
+    <img id="svgImage" src="path/to/your.svg" alt="Duty Schedule">
     <script>
         function needsRefresh() {
             const now = new Date();
@@ -71,5 +67,11 @@
             }
         }, 60000); // 60000 milliseconds = 1 minute
     </script>
+        <script>
+            // Prevent touch move actions to avoid the page moving on touch
+            document.addEventListener('touchmove', function(e) {
+                e.preventDefault();
+            }, { passive: false });
+        </script>
 </body>
 </html>
