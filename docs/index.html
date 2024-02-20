@@ -10,19 +10,22 @@
             margin: 0;
             padding: 0;
             height: 100%;
+            width: 100%;
             overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #000; /* In case the PDF does not cover the whole screen, this will show as border. */
         }
-        iframe {
+        object {
             width: 100vw;
             height: 100vh;
-            border: none;
         }
     </style>
 </head>
 <body>
-    <iframe id="pdfFrame" src=""></iframe>
+    <object id="pdfFrame" type="application/pdf" data="" width="100%" height="100%"></object>
     <script>
-        // Function to determine if it's time to refresh for the new schedule
         function needsRefresh() {
             const now = new Date();
             const dayOfWeek = now.getDay();
@@ -40,7 +43,7 @@
             const dayOfWeek = new Date().getDay();
             const isWeekend = dayOfWeek >= 5 || dayOfWeek === 0; // Friday, Saturday, Sunday
             const pdfToDisplay = isWeekend ? 'vrijdag-zondag.pdf' : 'maandag-donderdag.pdf';
-            document.getElementById("pdfFrame").src = pdfToDisplay;
+            document.getElementById("pdfFrame").data = pdfToDisplay;
         }
 
         // Initial load
