@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="600;url=index.html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pharmacy Duty Schedule</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+        iframe {
+            width: 100vw;
+            height: 100vh;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <iframe id="pdfFrame" src=""></iframe>
+    <script>
+        // Function to determine if it's time to refresh for the new schedule
+        function needsRefresh() {
+            const now = new Date();
+            const dayOfWeek = now.getDay();
+            const hour = now.getHours();
+            const minute = now.getMinutes();
+            
+            // Check if it's close to 00:10
+            const isRefreshTime = hour === 0 && minute <= 10;
+            
+            // Monday or Friday at 00:10
+            return (dayOfWeek === 1 || dayOfWeek === 5) && isRefreshTime;
+        }
+
+        function loadPDF() {
+            const dayOfWeek = new Date().getDay();
+            const isWeekend = dayOfWeek >= 5 || dayOfWeek === 0; // Friday, Saturday, Sunday
+            const pdfToDisplay = isWeekend ? 'vrijdag-zondag.pdf' : 'maandag-donderdag.pdf';
+            document.getElementById("pdfFrame").src = pdfToDisplay;
+        }
+
+        // Initial load
+        loadPDF();
+
+        // Check every minute if it's time to refresh
+        setInterval(() => {
+            if (needsRefresh()) {
+                window.location.reload();
+            }
+        }, 60000); // 60000 milliseconds = 1 minute
+    </script>
+</body>
+</html>
