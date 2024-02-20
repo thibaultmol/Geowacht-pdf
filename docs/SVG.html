@@ -7,7 +7,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-touch-fullscreen" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <title>Pharmacy Duty Schedule</title>
+    <title>Geowacht wachtkaart</title>
     <style>
         body, html {
             margin: 0;
@@ -18,25 +18,27 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #000; /* In case the PDF does not cover the whole screen, this will show as border. */
+            background-color: #000; /* In case the SVG does not cover the whole screen, this will show as border. */
         }
-        object {
-            width: 100vw;
-            height: 100vh;
+        img {
+            max-width: 100%;
+            max-height: 100vh;
+            width: auto;
+            height: auto;
         }
     </style>
-        <script type="text/javascript">
-            document.addEventListener('DOMContentLoaded', function(){
-               var updateStatusBar = navigator.userAgent.match(/iphone|ipad|ipod/i) && navigator.appVersion.match(/OS (\d)/) && parseInt(navigator.appVersion.match(/OS (\d)/)[1], 10) >= 7 && window.navigator.standalone;
-               if (updateStatusBar) {
-                   document.body.classList.add('platform-ios');
-                   document.body.classList.add('platform-cordova');
-               }
-             });
-        </script>
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function(){
+            var updateStatusBar = navigator.userAgent.match(/iphone|ipad|ipod/i) && navigator.appVersion.match(/OS (\d)/) && parseInt(navigator.appVersion.match(/OS (\d)/)[1], 10) >= 7 && window.navigator.standalone;
+            if (updateStatusBar) {
+                document.body.classList.add('platform-ios');
+                document.body.classList.add('platform-cordova');
+            }
+        });
+    </script>
 </head>
 <body>
-    <object id="pdfFrame" type="application/pdf" data="" width="100%" height="100%"></object>
+    <img id="svgImage" src="" alt="Duty Schedule">
     <script>
         function needsRefresh() {
             const now = new Date();
@@ -51,15 +53,15 @@
             return (dayOfWeek === 1 || dayOfWeek === 5) && isRefreshTime;
         }
 
-        function loadPDF() {
+        function loadSVG() {
             const dayOfWeek = new Date().getDay();
             const isWeekend = dayOfWeek >= 5 || dayOfWeek === 0; // Friday, Saturday, Sunday
-            const pdfToDisplay = isWeekend ? 'vrijdag-zondag.pdf' : 'maandag-donderdag.pdf';
-            document.getElementById("pdfFrame").data = pdfToDisplay;
+            const svgToDisplay = isWeekend ? 'vrijdag-zondag.svg' : 'maandag-donderdag.svg';
+            document.getElementById("svgImage").src = svgToDisplay;
         }
 
         // Initial load
-        loadPDF();
+        loadSVG();
 
         // Check every minute if it's time to refresh
         setInterval(() => {
