@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="600;url=index.html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-touch-fullscreen" content="yes">
@@ -12,33 +11,44 @@
         body, html {
             margin: 0;
             padding: 0;
-            height: 100%;
-            width: 100%;
             overflow: hidden;
             background-color: #ffffff;
-            position: fixed; /* Prevent the page from moving */
+            position: fixed;
+            width: 100%;
             top: 0;
             left: 0;
-            bottom: 0;
-            right: 0;
         }
         img {
             max-width: 100%;
-            max-height: 100%;
+            width: auto;
+            height: auto;
             object-fit: contain;
-            display: block; /* Remove any default margins */
-            margin: 0 auto; /* Center the image horizontally */
-            position: absolute; /* Override any default spacing */
-            top: 0;
-            bottom: 0;
+            position: absolute;
             left: 0;
             right: 0;
+            top: 0;
+            bottom: 0;
+            margin: auto;
         }
     </style>
 </head>
 <body>
-    <img id="svgImage" src="path/to/your.svg" alt="Duty Schedule">
+    <img id="svgImage" src="" alt="Duty Schedule">
     <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            adjustSVGHeight();
+        });
+
+        window.addEventListener('resize', function () {
+            adjustSVGHeight();
+        });
+
+        function adjustSVGHeight() {
+            var svgImage = document.getElementById('svgImage');
+            // Use window.innerHeight to get the correct viewport height in PWA mode
+            svgImage.style.height = window.innerHeight + 'px';
+        }
+        
         function needsRefresh() {
             const now = new Date();
             const dayOfWeek = now.getDay();
