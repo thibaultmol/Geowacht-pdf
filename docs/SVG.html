@@ -14,46 +14,35 @@
             padding: 0;
             overflow: hidden;
             background-color: #ffffff;
-            position: fixed; /* Keep the page from moving */
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            height: 100vh; /* Ensure full viewport height */
             display: flex;
             justify-content: center;
             align-items: center;
-            width: 100%;
-            height: 100%;
-        }
-        img {
-            /* Maximize size without specifying width and height to maintain aspect ratio */
-            max-width: 100%;
-            max-height: 100%;
-            /* Remove object-fit; use traditional centering */
-            display: block; /* Ensure it's block level for margin auto to work */
-            margin: auto; /* Auto margins for horizontal centering */
-            position: absolute; /* Keep absolute but adjust positioning */
+            position: fixed; 
             top: 0;
-            bottom: 0;
             left: 0;
             right: 0;
+            bottom: 0;
         }
-        @media (orientation: landscape) {
-            img {
-                width: 100vw; /* Landscape: Fill width, auto-adjust height */
-                height: auto;
-            }
+        .svg-container {
+            text-align: center; /* Center the content horizontally */
+            height: 100%; /* Full height to align items vertically */
+            display: flex;
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+            width: 100vw; /* Full viewport width */
         }
-        @media (orientation: portrait) {
-            img {
-                height: 100vh; /* Portrait: Fill height, auto-adjust width */
-                width: auto;
-            }
+        img {
+            max-width: 100%;
+            max-height: 100%;
+            /* Removing transform and absolute positioning */
         }
-    </style>    
+    </style>
 </head>
 <body>
-    <img id="svgImage" src="path/to/your.svg" alt="Duty Schedule">
+    <div class="svg-container">
+        <img id="svgImage" src="path/to/your.svg" alt="Duty Schedule">
+    </div>
     <script>
         function needsRefresh() {
             const now = new Date();
@@ -76,7 +65,7 @@
             if (needsRefresh()) {
                 window.location.reload();
             }
-        }, 60000); // Refresh every 60000 milliseconds (1 minute)
+        }, 60000);
     </script>
     <script>
         document.addEventListener('touchmove', function(e) {
