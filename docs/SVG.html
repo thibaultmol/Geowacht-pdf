@@ -12,27 +12,37 @@
         body, html {
             margin: 0;
             padding: 0;
-            height: 100%;
-            width: 100%;
             overflow: hidden;
             background-color: #ffffff;
-            position: fixed; /* Prevent the page from moving */
+            height: 100vh; /* Use viewport height to ensure full height coverage */
+            width: 100vw; /* Use viewport width to ensure full width coverage */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed; /* Keep the page from moving */
             top: 0;
             left: 0;
             bottom: 0;
             right: 0;
         }
         img {
+            /* Initial settings to ensure the SVG is responsive and centered */
             max-width: 100%;
             max-height: 100%;
             object-fit: contain;
-            display: block; /* Remove any default margins */
-            margin: 0 auto; /* Center the image horizontally */
-            position: absolute; /* Override any default spacing */
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
+            position: absolute;
+        }
+        @media (orientation: landscape) {
+            img {
+                width: 100vw; /* Fill the width in landscape mode */
+                height: auto; /* Adjust height automatically */
+            }
+        }
+        @media (orientation: portrait) {
+            img {
+                height: 100vh; /* Fill the height in portrait mode */
+                width: auto; /* Adjust width automatically */
+            }
         }
     </style>
 </head>
@@ -44,36 +54,28 @@
             const dayOfWeek = now.getDay();
             const hour = now.getHours();
             const minute = now.getMinutes();
-            
-            // Check if it's close to 00:10
             const isRefreshTime = hour === 0 && minute <= 10;
-            
-            // Monday or Friday at 00:10
             return (dayOfWeek === 1 || dayOfWeek === 5) && isRefreshTime;
         }
 
         function loadSVG() {
             const dayOfWeek = new Date().getDay();
-            const isWeekend = dayOfWeek >= 5 || dayOfWeek === 0; // Friday, Saturday, Sunday
+            const isWeekend = dayOfWeek >= 5 || dayOfWeek === 0;
             const svgToDisplay = isWeekend ? 'vrijdag-zondag.svg' : 'maandag-donderdag.svg';
             document.getElementById("svgImage").src = svgToDisplay;
         }
 
-        // Initial load
         loadSVG();
-
-        // Check every minute if it's time to refresh
         setInterval(() => {
             if (needsRefresh()) {
                 window.location.reload();
             }
-        }, 60000); // 60000 milliseconds = 1 minute
+        }, 60000); // Refresh every 60000 milliseconds (1 minute)
     </script>
-        <script>
-            // Prevent touch move actions to avoid the page moving on touch
-            document.addEventListener('touchmove', function(e) {
-                e.preventDefault();
-            }, { passive: false });
-        </script>
+    <script>
+        document.addEventListener('touchmove', function(e) {
+            e.preventDefault();
+        }, { passive: false });
+    </script>
 </body>
 </html>
